@@ -5,5 +5,5 @@ import (
 )
 
 func Health(c fiber.Ctx) error {
-    return c.JSON("Hello, World 👋!")
-  }
+	return c.JSON("Hello, World 👋!")
+}

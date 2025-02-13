@@ -1,4 +1,4 @@
-package autthorization
+package tables
 
 import (
 	"encoding/json"
@@ -6,12 +6,11 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 
-	"back/cmd/handlers/structs"
+	"back/cmd/hadlers/structs"
 )
 
-func Registration(c fiber.Ctx) error {
-
-	var data structs.RegistrationRequest
+func CreateTable(c fiber.Ctx) error {
+	var data structs.RegisterRequest
 
 	if err := json.Unmarshal(c.Body(), &data); err != nil {
 		log.Println("Ошибка при парсинге JSON:", err)
@@ -20,8 +19,5 @@ func Registration(c fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(fiber.Map{
-		"message": "Данные успешно получены и записаны в лог",
-		"data":    data,
-	})
+	return c.JSON("")
 }
