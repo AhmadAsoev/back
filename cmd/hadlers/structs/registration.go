@@ -1,7 +1,6 @@
-package structs	
+package structs
 
-
-type RegistrationRequest struct {
+type RegisterRequest struct {
 	FirstName       string `json:"firstName"`
 	LastName        string `json:"lastName"`
 	Email           string `json:"email"`
