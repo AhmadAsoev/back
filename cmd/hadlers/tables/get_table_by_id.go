@@ -10,7 +10,7 @@ import (
 )
 
 func GetTableByID(c fiber.Ctx) error {
-	var data structs.RegisterRequest
+	var data structs.TableRequest
 
 	if err := json.Unmarshal(c.Body(), &data); err != nil {
 		log.Println("Ошибка при парсинге JSON:", err)
