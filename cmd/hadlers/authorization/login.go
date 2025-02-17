@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"encoding/json"
 	"github.com/gofiber/fiber/v3"
 
 	"back/cmd/hadlers/structs"
@@ -17,8 +18,15 @@ import (
 func Login(c fiber.Ctx) error {
 	var data structs.LoginRequest
 
-	data.Email = c.Params("email")
-	data.Password = c.Params("password")
+
+	if err := json.Unmarshal(c.Body(), &data); err != nil {
+		log.Println("Ошибка при парсинге JSON:", err)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Невозможно обработать JSON",
+		})
+	}
+
+
 	db := repository.Conn()
 	defer db.Close()
 
@@ -31,7 +39,6 @@ func Login(c fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": "Ошибка при обработке данных"})
 	}
 
-	log.Print(userData)
 
 	err := bcrypt.CompareHashAndPassword([]byte(userData.Password), []byte(data.Password))
 	if err != nil {
@@ -42,6 +49,7 @@ func Login(c fiber.Ctx) error {
 			log.Fatal("Error creating token:", err)
 		}
 
+		log.Print(token)
 		return c.JSON(token)
 	}
 
