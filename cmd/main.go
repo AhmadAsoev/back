@@ -25,7 +25,7 @@ func main() {
 
 	// Auth
 	app.Post("/register", authorization.Registration)
-	app.Get("/login/:username/:password", authorization.Login)
+	app.Get("/login/:email/:password", authorization.Login)
 
 	// Table
 	app.Post("/tables", tables.CreateTable)

@@ -22,10 +22,8 @@ func GatTables(c fiber.Ctx) error {
 	}
 	defer rows.Close()
 
-	// Создаём массив для хранения результатов
 	var data []structs.TableRequest
 
-	// Сканируем строки в структуру
 	for rows.Next() {
 		var row structs.TableRequest
 
@@ -35,8 +33,6 @@ func GatTables(c fiber.Ctx) error {
 
 		data = append(data, row)
 	}
-
-	// Возвращаем JSON с результатами
 
 	return c.JSON(data)
 }

@@ -7,6 +7,7 @@ require github.com/gofiber/fiber/v3 v3.0.0-beta.4
 require (
 	github.com/andybalholm/brotli v1.1.1 // indirect
 	github.com/denisenkom/go-mssqldb v0.12.3 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/gofiber/schema v1.2.0 // indirect
 	github.com/gofiber/utils/v2 v2.0.0-beta.7 // indirect
