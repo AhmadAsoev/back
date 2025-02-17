@@ -1,7 +1,7 @@
 package structs
 
 type TableRequest struct {
-	ID                   int    `json: "id"`
+	ID                   int    `json:"id"`
 	ActNumber            string `json:"actNumber"`
 	SenderName           string `json:"senderName"`
 	SenderPositon        string `json:"senderPosition"`

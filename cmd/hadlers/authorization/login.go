@@ -58,20 +58,14 @@ func Login(c fiber.Ctx) error {
 var jwtKey = []byte("mySecretKey")
 
 func createToken(user structs.RegisterRequest) (string, error) {
-	// Устанавливаем время истечения токена (например, 1 час)
 	expirationTime := time.Now().Add(1 * time.Hour)
-
-	// Создаём claims для токена (данные пользователя и время истечения)
 	claims := &jwt.StandardClaims{
-		Subject:   fmt.Sprintf("%d", user.Id), // ID пользователя
+		Subject:   fmt.Sprintf("%d", user.Id),
 		Issuer:    "myApp",
 		ExpiresAt: expirationTime.Unix(),
 	}
-
-	// Создаём новый токен
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	// Подписываем токен с использованием секретного ключа
 	signedToken, err := token.SignedString(jwtKey)
 	if err != nil {
 		return "Ошибка подписки токена с использование секретного ключа", err
