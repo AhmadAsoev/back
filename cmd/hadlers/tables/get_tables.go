@@ -28,10 +28,15 @@ func GatTables(c fiber.Ctx) error {
 		var row structs.TableRequest
 
 		if err := rows.Scan(&row.ID, &row.ActNumber, &row.SenderName, &row.SenderPositon, &row.SenderOrganization, &row.Date, &row.ReceiverName, &row.ReceiverPosition, &row.ReceiverOrganization); err != nil {
+			log.Print("Error scanning row: ", err)
 			return c.Status(500).JSON(fiber.Map{"error": "Ошибка при обработке данных"})
 		}
 
 		data = append(data, row)
+	}
+	if err := rows.Err(); err != nil {
+		log.Print("Error iterating rows: ", err)
+		return c.Status(500).JSON(fiber.Map{"error": "Ошибка при обработке данных"})
 	}
 
 	return c.JSON(data)

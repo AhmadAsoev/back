@@ -18,14 +18,12 @@ import (
 func Login(c fiber.Ctx) error {
 	var data structs.LoginRequest
 
-
 	if err := json.Unmarshal(c.Body(), &data); err != nil {
 		log.Println("Ошибка при парсинге JSON:", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Невозможно обработать JSON",
 		})
 	}
-
 
 	db := repository.Conn()
 	defer db.Close()
@@ -39,18 +37,24 @@ func Login(c fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": "Ошибка при обработке данных"})
 	}
 
-
 	err := bcrypt.CompareHashAndPassword([]byte(userData.Password), []byte(data.Password))
 	if err != nil {
-		return c.JSON("Password does not match")
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"error": "Password does not match",
+		})
 	} else {
 		token, err := createToken(userData)
 		if err != nil {
 			log.Fatal("Error creating token:", err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": "Failed to generate token",
+			})
 		}
 
 		log.Print(token)
-		return c.JSON(token)
+		return c.JSON(fiber.Map{
+			"token": token,
+		})
 	}
 
 }
